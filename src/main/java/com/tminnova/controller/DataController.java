@@ -1,13 +1,26 @@
 package com.tminnova.controller;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.sql.DataSource;
+
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.hibernate.query.NativeQuery;
 import org.junit.Assert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +31,9 @@ import com.tminnova.model.TableColumn;
 
 @RestController
 public class DataController {
+
+	@Autowired
+	private DataSource dataSource;
 
 	static <K, V> List<K> getAllKeysForValue(Map<K, TableColumn> mapOfWords, TableColumn value) {
 		List<K> listOfKeys = null;
@@ -51,6 +67,19 @@ public class DataController {
 
 	@PostMapping("/greeting")
 	public String greeting(@RequestBody DBTableRequest req) {
+
+		Connection con;
+		try {
+			con = dataSource.getConnection();
+			ResultSet rs = con.createStatement().executeQuery("select * from clients limit 1");
+			ResultSetMetaData rsmd = rs.getMetaData();
+			System.out.println("No. of columns : " + rsmd.getColumnCount());
+			System.out.println("Column name of 1st column : " + rsmd.getColumnName(1));
+			System.out.println("Column type of 1st column : " + rsmd.getColumnTypeName(1));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		Map<String, TableColumn> columnsTableDB = new TreeMap<String, TableColumn>();
 		Map<String, String> columnsTableRequest = new TreeMap<String, String>();
@@ -97,8 +126,8 @@ public class DataController {
 				// System.out.println("Tabla " + reqTable.getTable() + " existe");
 
 				for (String ReqColumn : reqTable.getColumns()) {
-					
-					if(!columnsTableDB.containsValue(new TableColumn(reqTable.getTable(), ReqColumn))) {
+
+					if (!columnsTableDB.containsValue(new TableColumn(reqTable.getTable(), ReqColumn))) {
 						System.out.println("Columna " + ReqColumn + " no existe para la Tabla " + reqTable.getTable());
 					}
 
