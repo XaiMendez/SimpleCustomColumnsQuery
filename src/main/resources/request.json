@@ -1,0 +1,11 @@
+{
+	"tables":[
+	 {
+	  "table":"Clients","columns":["id", "name", "lastname", "dob", "no_exist"]
+     },
+     {
+	  "table":"CompaniesS","columns":["id","name","address"]
+     }
+	]
+	
+}
