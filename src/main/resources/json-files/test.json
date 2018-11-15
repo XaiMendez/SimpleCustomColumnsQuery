@@ -1,0 +1,56 @@
+[
+	{
+		"node": "node_1",
+		"tables": [
+			{
+				"table": "Table_1",
+				"columns": [
+					{
+						"key": "C1",
+						"name": "columna 1"
+					},
+					{
+						"key": "C2",
+						"name": "columna 2"
+					}
+				]
+			},
+			{
+				"table": "Table_2",
+				"columns": [
+					{
+						"key": "C1",
+						"name": "columna 1"
+					}
+				]
+			}
+		]
+	},
+	{
+		"node": "node_2",
+		"tables": [
+			{
+				"table": "Table_1",
+				"columns": [
+					{
+						"key": "C1",
+						"name": "columna 1"
+					},
+					{
+						"key": "C2",
+						"name": "columna 2"
+					}
+				]
+			},
+			{
+				"table": "Table_2",
+				"columns": [
+					{
+						"key": "C1",
+						"name": "columna 1"
+					}
+				]
+			}
+		]
+	}
+]
